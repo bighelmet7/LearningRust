@@ -1,9 +1,15 @@
+extern crate rand;
+
 //This is the way how rust import packages
 use std::io;
+use std::cmp::Ordering;
+use rand::Rng;
 
 fn main() {
     println!("Let da game begin!");
     println!("Gues the number, please introduce a number");
+
+    let secret = rand::thread_rng().gen_range(1, 101);
 
     // guess is a mutable variable, in Rust there are two ways
     // to declare a let variable, the default one:
@@ -25,4 +31,25 @@ fn main() {
         .expect("Fail while reading..."); //Exception Err
 
     println!("Duuude! you gues {}", guess); //Text formating
+    
+    println!("And the secret is ... {}", secret);
+
+    //We're shadowing the guess variable, so we can
+    //have the same type as secret, two integers.
+    //The ':' is telling Rust that we are annotate the
+    //type of the variable guess in this case a unsigned integer.  
+
+    let guess : u32 = guess.trim().parse()
+        .expect("Damn it need a number m8!");
+
+    // match is almost as a switch statement:
+    // match variable {
+    //  case => result,
+    //  _    => println!("this is a default"),
+    // }
+    match guess.cmp(&secret) {
+        Ordering::Less => println!("Muu peque"),
+        Ordering::Equal => println!("Igualito illo!"),
+        Ordering::Greater => println!("Teee pasaste la wea!"),
+    } 
 }
